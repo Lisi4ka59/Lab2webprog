@@ -1,0 +1,253 @@
+html,
+
+.contact {
+    height: 30px;
+}
+.data {
+    padding: 5%;
+    position: relative;
+    background-color: #3a88fc;
+    border-radius: 20px;
+    z-index: 1;
+    width: 50%;
+    margin-left: 20%;
+    opacity: 1;
+    margin-top: 5%;
+    margin-bottom: 10%;
+
+}
+.profile-pic {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    margin: auto 10%;
+    float: right;
+}
+.container {
+    position: absolute;
+    top: 60px;
+    z-index: 0;
+    width: 60%;
+    margin-left: 20%;
+    background-color: rgba(37, 122, 250, 0.5);
+    border-radius: 50px;
+
+}
+.header-info {
+    font-family: sans-serif;
+    color: #d1d1d1;
+    font-size: 18px;
+    margin-bottom: 1%;
+    margin-right: 2%;
+    z-index: 1;
+}
+#variant{
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+tr.opaque-row {
+    background-color: rgba(0, 0, 0, 1);
+    color: black;
+}
+.circle-image {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.invalid {
+    border-color: red;
+}
+a[href^="#"] {
+    background-color: gold;
+
+}
+a[href^="#"]:visited {
+    color: black;
+
+}
+
+#res td, th{
+    padding: 5px;
+    border: 2px solid whitesmoke;
+}
+#res{
+
+    border-collapse: collapse;
+}
+table, th, td {
+
+    border-radius: 5px;
+}
+
+#group{
+    font-style: italic;
+    color: blue;
+    font-size: 18px;
+
+}
+#group:hover{
+    color: yellow;
+}
+.xy_table {
+    padding: 5%;
+    position: relative;
+    background-color: #3a88fc;
+    border-radius: 20px;
+    z-index: 1;
+    width: 50%;
+    margin-left: 20%;
+    opacity: 1;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+}
+.input {
+    padding: 5px;
+    width: 175px;
+}
+.in {
+    border-radius: 10px;
+}
+td {
+    vertical-align: middle;
+    margin: auto;
+}
+
+#intro {
+    top: 0;
+    left: 0;
+    position: absolute;
+    margin: 0;
+    height: 133vw;
+    overflow: hidden;
+    background: rgba(0,0,0,0) !important;
+    width: 100%;
+    z-index: -1;
+}
+#back {
+    top: 0;
+    left: 0;
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    z-index: -1;
+
+}
+
+body {
+    font-family: 'Lucida Sans Unicode', 'Helvetica', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 15% 0;
+
+}
+table {
+    overflow-x: auto;
+    color: white;
+    margin: auto;
+}
+#table {
+    position: relative;
+    margin: auto;
+    width: 86%;
+padding-bottom: 45px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.wrapper{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.sub {
+    font-family: Arial, sans-serif;
+    position: relative;
+
+
+margin-top: 15px;
+    width: 100px;
+    height: 25px;
+    line-height: 1;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 2px solid #fff;
+    background: #fff;
+    color: #000;
+    border-radius: 40px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all .35s;
+}
+.sub:disabled{
+    background: grey;
+    color: #fff;
+    border: 2px solid grey;
+}
+#x {
+    width: 175px;
+}
+
+.sub:enabled:hover{
+    border: 2px solid black;
+    background: #000;
+    color: #fff;
+}
+#resultat{
+    margin-top: 20px;
+    height: 20px;
+    width: 200px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+#d {
+    border-radius: 10px;
+    height: 200px;
+    width: 200px;
+    position: relative;
+    background-image: url("../img/graph.jpg");
+    background-color: white;
+}
+#da{
+    margin-left: 20px;
+    margin-bottom: 30px;
+    height: 240px;
+    width: 200px;
+    position: relative;
+    float: right;
+    margin-right: 30px;
+    padding: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
