@@ -19,7 +19,7 @@ import java.util.*;
 @WebServlet(name = "GraphicsServlet", value = "/GraphicsServlet")
 public class GraphicsServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("image/jpeg");
         ServletOutputStream out = response.getOutputStream();
@@ -29,10 +29,8 @@ public class GraphicsServlet extends HttpServlet {
         float y = Float.parseFloat(request.getParameter("y"));
         float radius;
         float random = Float.parseFloat(request.getParameter("rand"));
-        //String str = "";
         try {
             radius = Float.parseFloat(request.getParameter("r"));
-            //radius = Float.parseFloat(str);
         }catch (Exception ex){
             Graphics2D graphics = image.createGraphics();
             graphics.setColor(Color.WHITE);
@@ -41,8 +39,6 @@ public class GraphicsServlet extends HttpServlet {
             graphics.drawString("Parameter R not found!", 30, 90);
             graphics.dispose();
             ImageIO.write(image, "jpeg", out);
-
-            // close the stream
             out.close();
             return;
         }
@@ -108,9 +104,10 @@ public class GraphicsServlet extends HttpServlet {
 
 
 
-
-        graphics.setColor(new Color(re,gr,bl));
-        graphics.fillOval(roundx + 100 - 2, -(roundy -100 + 2), 5, 5);
+        if (x != 1000) {
+            graphics.setColor(new Color(re, gr, bl));
+            graphics.fillOval(roundx + 100 - 2, -(roundy - 100 + 2), 5, 5);
+        }
         Enumeration<String> attributes = request.getSession().getAttributeNames();
         ArrayList<String> list = new ArrayList<>();
         while (attributes.hasMoreElements()) {
@@ -133,14 +130,13 @@ public class GraphicsServlet extends HttpServlet {
             graphics.setColor(new Color(r,g,b));
             graphics.fillOval(newX - 2, -(newY + 2), 5, 5);
         }
-        // encode the image as a JPEG data stream and write the same to servlet output stream
         graphics.dispose();
-        HttpSession session = request.getSession();
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance().getTimeInMillis());
-        session.setAttribute(time, ((x-100)/74*radius) + "@" + ((100-y)/74*radius) + "@" + radius + "@" + time + "@" + "1" + "@" + text + "#" + re + "%" + gr + "%" + bl);
+        if (x != 1000) {
+            HttpSession session = request.getSession();
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance().getTimeInMillis());
+            session.setAttribute(time, ((x - 100) / 74 * radius) + "@" + ((100 - y) / 74 * radius) + "@" + radius + "@" + time + "@" + "1" + "@" + text + "#" + re + "%" + gr + "%" + bl);
+        }
         ImageIO.write(image, "jpeg", out);
-
-        // close the stream
         out.close();
     }
 }

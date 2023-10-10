@@ -110,16 +110,16 @@
             <div class="xy"> <div id="x"> X </div><div class="input"><label for="vvodx"></label><input class="in" type="text" name="X" id="vvodx"/></div> <div class="button"> <button class="xbutton"> -5 </button> <button class="xbutton"> -4 </button>  <button class="xbutton"> -3 </button> <button class="xbutton"> -2 </button>  <button class="xbutton"> -1 </button> <button class="xbutton"> 0 </button>  <button class="xbutton"> 1 </button>  <button class="xbutton"> 2 </button>  <button class="xbutton"> 3 </button> </div>   </div>
             <div class="xy"> <div><label for="vvody">Y</label></div><div class="input"><input class="in" type="text" name="Y" id="vvody" placeholder="значение от -5, до 5"/> </div>  </div>
             <div class="xy"> <div> R </div><div class="input"><label>
-                <input type="radio" name="R" checked value="1"/>
+                <input class="radi" type="radio" name="R" checked value="1"/>
             </label> 1
                 <label>
-                    <input type="radio" name="R" value="1.5"/>
+                    <input class="radi" type="radio" name="R" value="1.5"/>
                 </label> 1.5 <label>
-                    <input type="radio" name="R" value="2"/>
+                    <input class="radi" type="radio" name="R" value="2"/>
                 </label> 2 <label>
-                    <input type="radio" name="R" value="2.5"/>
+                    <input class="radi" type="radio" name="R" value="2.5"/>
                 </label> 2.5 <label>
-                    <input type="radio" name="R" value="3"/>
+                    <input class="radi" type="radio" name="R" value="3"/>
                 </label> 3 </div>  </div>
             <div class="wrapper">
                 <input class="sub" type="submit" disabled value="Submit" id="submit"/>
@@ -167,25 +167,35 @@
 
     <script>
         jQuery(function(){
+            var S = $('input[name="R"]:checked').val();
+            $('#d').bind('mousewheel', function(e){
+                var wh = (e.originalEvent.wheelDeltaY / 300) - (-S);
+                S = wh;
+                let X = 1000;
+                let Y = 1000;
+                let R = wh;
+                let random = Math.random();
+                jQuery("#d").css("background-image", "url('GraphicsServlet?x=" + X + "&y=" + Y + "&r=" + R + "&rand=" + random + " ')");
+                e.preventDefault();
+            });
             jQuery("#d").click(function (event){
                 let parentOffset = jQuery(this).offset();
                 let X = event.pageX - parentOffset.left;
                 let Y = event.pageY - parentOffset.top;
-                let R = $('input[name="R"]:checked').val();
+                let R = S;
                 let random = Math.random();
                 jQuery("#resultat").load("HitServlet?X=" + X + "&Y=" + Y + "&R=" + R + "&rand=" + random);
                 jQuery("#d").css("background-image", "url('GraphicsServlet?x=" + X + "&y=" + Y + "&r=" + R + "&rand=" + random + " ')");
                 setTimeout(function () {jQuery("#table").load("TableServlet");}, 10);
-
             });
-            $('#d').bind('mousewheel', function(e){
-                if(e.originalEvent.wheelDelta /120 > 0) {
-                    console.log('scrolling up !');
-                }
-                else{
-                    console.log('scrolling down !');
-                }
-            e.preventDefault();
+            jQuery(".radi").change(function (event) {
+                let parentOffset = jQuery(this).offset();
+                let X = 1000;
+                let Y = event.pageY - parentOffset.top;
+                S = $('input[name="R"]:checked').val();
+                let R = S;
+                let random = Math.random();
+                jQuery("#d").css("background-image", "url('GraphicsServlet?x=" + X + "&y=" + Y + "&r=" + R + "&rand=" + random + " ')");
             });
             $(window).on('scroll', function (ee){
                 $('#back').css('top', $(window).scrollTop()/1.5);
