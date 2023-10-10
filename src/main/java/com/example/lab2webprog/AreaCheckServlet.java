@@ -10,10 +10,6 @@ import java.util.*;
 
 @WebServlet(name = "AreaCheckServlet", value = "/AreaCheckServlet")
 public class AreaCheckServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)  {
-
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -162,7 +158,6 @@ public class AreaCheckServlet extends HttpServlet {
                     
                 </div>
                 """);
-        Random random = new Random();
         int gr = 0;
         int re = 0;
         int bl = 0;
@@ -173,48 +168,21 @@ public class AreaCheckServlet extends HttpServlet {
             if (!((Y >= -5 && Y<=5) && (X>=-5 && X<=3) && (R>=1 && R <=3))){
                 out.println("<img src=\"static/img/cover.jpg\" alt=\"Achtung!\" style=\"z-index:10; height:100vh; position: relative; margin: auto;\">");
             }else {
-                if (((X <= 0 && X > -R) && (Y <= 0 && Y > -R/2)) || ((X >= 0 && Y >= 0) && ((X + Y) < R/2)) || ((X <= 0 && Y >= 0) && ((Math.pow(X, 2) + Math.pow(Y, 2) < Math.pow(R, 2))))) {
-                    if (random.nextInt(10) < 5) {
-                        gr = 60;
-                        re = 60;
-                        bl = 60;
-                        text = "Не пробил!";
-                    } else {
-                        gr = 255;
-                        re = 0;
-                        bl = 0;
-                        text = "Есть пробитие!";
-                    }
-                } else {
-                    if (((X <= 0 && Y <= 0) && (X == -R || Y == -R/2) || ((X >= 0) && (Y >= 0)) && (X + Y == R/2)) || ((X <= 0 && Y >= 0) && ((Math.pow(X, 2) + Math.pow(Y, 2) == Math.pow(R, 2))))) {
-                        gr = 150;
-                        re = 150;
-                        bl = 150;
-                        text = "Рикошет!";
-                    } else {
-                        gr = 0;
-                        re = 255;
-                        bl = 0;
-                        text = "Не попал!";
-
-                    }
-                }
+                Random random = new Random();
+                String[] result = DotValidator.result(Float.parseFloat(String.valueOf(X)), Y, R, random.nextFloat());
+                re = Integer.parseInt(result[0]);
+                gr = Integer.parseInt(result[1]);
+                bl = Integer.parseInt(result[2]);
+                text = result[3];
             }
-
-
             HttpSession session = request.getSession();
             long startTime = Long.parseLong((String) session.getAttribute("StartTime"));
             session.removeAttribute("StartTime");
             long scriptTime = System.currentTimeMillis() - startTime;
             String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance().getTimeInMillis());
             session.setAttribute(time, X + "@" + Y + "@" + R + "@" + time + "@" + scriptTime + "@" + text + "#" + re + "%" + gr + "%" + bl);
-            Enumeration<String> attributes = request.getSession().getAttributeNames();
-            ArrayList<String> list = new ArrayList<>();
-            while (attributes.hasMoreElements()) {
-                String attribute = attributes.nextElement();
-                list.add(attribute);
-            }
-            list.sort(Collections.reverseOrder());
+            ArrayList<String> list = getSessionAttributes(request);
+
             for (String s:list) {
                 String[] pr = ((String) request.getSession().getAttribute(s)).split("#");
                 String[] atr = pr[0].split("@");
@@ -241,6 +209,17 @@ public class AreaCheckServlet extends HttpServlet {
                     <script src="static/JS/vanta.birds.min.js"></script>
                     <script src="static/JS/app.js"></script></body></html>""");
         }
+    }
+
+    static ArrayList<String> getSessionAttributes(HttpServletRequest request) {
+        Enumeration<String> attributes = request.getSession().getAttributeNames();
+        ArrayList<String> list = new ArrayList<>();
+        while (attributes.hasMoreElements()) {
+            String attribute = attributes.nextElement();
+            list.add(attribute);
+        }
+        list.sort(Collections.reverseOrder());
+        return list;
     }
 
 }

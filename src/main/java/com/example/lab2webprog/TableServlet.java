@@ -5,14 +5,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Enumeration;
 
 @WebServlet(name = "TableServlet", value = "/TableServlet")
 
@@ -34,13 +29,7 @@ public class TableServlet extends HttpServlet {
                 <th style="border-top-right-radius: 10px">Результат</th>
             </tr>
             """);
-        Enumeration<String> attributes = request.getSession().getAttributeNames();
-        ArrayList<String> list = new ArrayList<>();
-        while (attributes.hasMoreElements()) {
-            String attribute = attributes.nextElement();
-            list.add(attribute);
-        }
-        list.sort(Collections.reverseOrder());
+        ArrayList<String> list = AreaCheckServlet.getSessionAttributes(request);
         for (String s:list) {
             String[] pr = ((String) request.getSession().getAttribute(s)).split("#");
             String[] atr = pr[0].split("@");

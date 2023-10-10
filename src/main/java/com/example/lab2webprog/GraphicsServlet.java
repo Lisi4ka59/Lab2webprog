@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -26,9 +25,6 @@ public class GraphicsServlet extends HttpServlet {
         ServletOutputStream out = response.getOutputStream();
 
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_BYTE_INDEXED);
-//        int r = Integer.parseInt(request.getParameter("ColorR"));
-//        int g = Integer.parseInt(request.getParameter("ColorG"));
-//        int b = Integer.parseInt(request.getParameter("ColorB"));
         float x = Float.parseFloat(request.getParameter("x"));
         float y = Float.parseFloat(request.getParameter("y"));
         float radius;
@@ -42,10 +38,15 @@ public class GraphicsServlet extends HttpServlet {
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0,0, 200, 200);
             graphics.setColor(Color.red);
-            graphics.drawString("Parameter R not found!", 10, 10);
+            graphics.drawString("Parameter R not found!", 30, 90);
             graphics.dispose();
+            ImageIO.write(image, "jpeg", out);
+
+            // close the stream
+            out.close();
             return;
         }
+
         int roundx = Math.round(x-100);
         int roundy = -Math.round(y-100);
         float X = (x-100)*radius;
@@ -57,36 +58,12 @@ public class GraphicsServlet extends HttpServlet {
         int bl;
         String text;
 
-        if (((X <= 0 && X > -R) && (Y <= 0 && Y > -R/2)) || ((X >= 0 && Y >= 0) && ((X + Y) < R/2)) || ((X <= 0 && Y >= 0) && ((Math.pow(X, 2) + Math.pow(Y, 2) < Math.pow(R, 2))))) {
-            if (random < 0.4) {
-                gr = 60;
-                re = 60;
-                bl = 60;
-                text = "Не пробил!";
-            } else {
-                gr = 255;
-                re = 0;
-                bl = 0;
-                text = "Есть пробитие!";
-            }
-        } else {
-            if (((X <= 0 && Y <= 0) && (X == -R || Y == -R/2) || ((X >= 0) && (Y >= 0)) && (X + Y == R/2)) || ((X <= 0 && Y >= 0) && ((Math.pow(X, 2) + Math.pow(Y, 2) == Math.pow(R, 2))))) {
-                gr = 150;
-                re = 150;
-                bl = 150;
-                text = "Рикошет!";
-            } else {
-                gr = 0;
-                re = 255;
-                bl = 0;
-                text = "Не попал!";
+        String[] result = DotValidator.result(X, Y, R, random);
+        re = Integer.parseInt(result[0]);
+        gr = Integer.parseInt(result[1]);
+        bl = Integer.parseInt(result[2]);
+        text = result[3];
 
-            }
-        }
-
-        //ssh -L 17034:helios.cs.ifmo.ru:17034 H
-        //cd wildfly/bin
-        //sh standalone.sh
 
 
         Graphics2D graphics = image.createGraphics();
@@ -145,13 +122,10 @@ public class GraphicsServlet extends HttpServlet {
             String[] atr = pr[0].split("@");
             float oldX = Float.parseFloat(atr[0]);
             float oldY = Float.parseFloat(atr[1]);
-            float oldR = Float.parseFloat(atr[2]);
             float oX = oldX * 74 / radius;
             float oY = oldY * 74 / radius;
-            //System.out.println(oX + " "+oY);
             int newX = Math.round(((oX)+100));
             int newY = -Math.round(-((oY)-100));
-            //System.out.println(newX + " " + newY);
             String[] color = pr[1].split("%");
             int r = Integer.parseInt(color[0]);
             int g = Integer.parseInt(color[1]);

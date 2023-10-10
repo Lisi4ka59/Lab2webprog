@@ -13,23 +13,6 @@ import jakarta.servlet.annotation.*;
 
 public class ControllerServlet extends HttpServlet {
 
-    public void init() {
-
-    }
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        response.setCharacterEncoding("utf-8");
-        PrintWriter out = response.getWriter();
-        String X = request.getParameter("X");
-
-
-        out.println("<html>");
-        out.println("<head><head/><body>");
-        if (X == null) {
-            out.println("Данные не заданы");
-        }
-        out.println("</body></html>");
-    }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
@@ -55,6 +38,4 @@ public class ControllerServlet extends HttpServlet {
         out.println("</body></html>");
     }
 
-    public void destroy() {
-    }
 }
